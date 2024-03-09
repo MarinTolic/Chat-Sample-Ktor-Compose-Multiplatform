@@ -1,3 +1,26 @@
+# 👓 Overview
+
+This is a Kotlin Multiplatform project demonstrating a small, rudimentary chat application created for the sake of a public lecture on Ktor. 
+As such, this application does not follow certain best practices such as password encryption, so please do not use it as a foundation for another application.
+
+# 🔧 Setting up the Application
+
+## PostgreSQL
+
+This application uses PostgreSQL, so before you can run the app, you need to set PostreSQL.
+
+To do so, do the following steps
+
+1) Install PostgreSQL on your system. This is platform specific so this README won't go into further detail.
+2) Clone the project and into your local Gradle properties (local.properties) file add the following values:
+   - user_db_name=\<The name of the PostgreSQL database\>
+   - user_db_user_name=\<The name of the PostgreSQL user given the privilege of accessing the database\>
+   - user_db_user_password=\<The password of the PostgreSQL user given the privilege of accessing the database\>
+3) Make sure that the PostgreSQL server is up and running. (platform dependant, `systemctl status postgresql` on Linux)
+
+
+-----
+
 This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop, Server.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
