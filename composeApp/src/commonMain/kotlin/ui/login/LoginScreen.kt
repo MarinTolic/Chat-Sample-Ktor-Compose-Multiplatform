@@ -1,0 +1,121 @@
+package ui.login
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import chatsample.composeapp.generated.resources.Res
+import chatsample.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
+
+
+/**
+ * Contains the login screen.
+ *
+ * @param modifier The modifier used for styling the composable.
+ */
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun LoginScreen(modifier: Modifier = Modifier) {
+    val username = "Username"
+
+    val password = "Password"
+
+    var usernameTextFieldValue by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    var passwordTextFieldValue by rememberSaveable() {
+        mutableStateOf("")
+    }
+
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = Modifier.sizeIn(
+                maxWidth = 250.dp,
+                maxHeight = 250.dp
+            ),
+            painter = painterResource(Res.drawable.compose_multiplatform),
+            contentDescription = null
+        )
+
+        Spacer(
+            modifier = Modifier.fillMaxWidth()
+                .height(12.dp)
+        )
+
+        LoginTextField(
+            value = usernameTextFieldValue,
+            label = username,
+            placeholder = username,
+        ) { usernameInput ->
+            usernameTextFieldValue = usernameInput
+        }
+
+        LoginTextField(
+            value = passwordTextFieldValue,
+            label = password,
+            placeholder = password
+        ) { passwordInput ->
+            passwordTextFieldValue = passwordInput
+        }
+
+        Spacer(
+            modifier = Modifier.fillMaxWidth()
+                .height(25.dp)
+        )
+
+        Button(
+            onClick = {
+                //TODO()
+            }
+        ) {
+            Text(
+                text = "LOGIN",
+                style = MaterialTheme.typography.button
+            )
+        }
+    }
+}
+
+/**
+ * A stylized TextField used for the login screen.
+ *
+ * @param value The input text to be shown in the text field
+ * @param onValueChange The callback that is triggered when the input service updates the text.
+ * An updated text comes as a parameter of the callback
+ */
+@Composable
+private fun LoginTextField(
+    value: String,
+    label: String,
+    placeholder: String,
+    onValueChange: (String) -> Unit,
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = MaterialTheme.colors.background
+        ),
+        label = {
+            Text(text = label)
+        },
+        placeholder = {
+            Text(text = placeholder)
+        }
+    )
+}
+
