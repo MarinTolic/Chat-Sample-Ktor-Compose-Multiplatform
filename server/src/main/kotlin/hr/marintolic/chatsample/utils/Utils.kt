@@ -1,8 +1,8 @@
-package hr.marintolic.chatsample
+package hr.marintolic.chatsample.utils
 
 import java.io.File
 import java.io.FileInputStream
-import java.util.Properties
+import java.util.*
 
 /**
  * Fetches a map of all local properties.

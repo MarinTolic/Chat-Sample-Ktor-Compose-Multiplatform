@@ -2,11 +2,8 @@ package hr.marintolic.chatsample.database.user
 
 import hr.marintolic.chatsample.database.user.model.User
 import hr.marintolic.chatsample.database.user.model.Users
-import hr.marintolic.chatsample.getLocalProperties
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import hr.marintolic.chatsample.utils.getLocalProperties
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 /**
@@ -93,6 +90,20 @@ object UserDatabase {
     }
 
     /**
+     * Updates an existing user's information in the database.
+     *
+     * @param user The user whose information will be updated.
+     */
+    internal fun updateUser(user: User) {
+        transaction {
+            Users.update {
+                it[username] = user.username
+                it[password] = user.password
+            }
+        }
+    }
+
+    /**
      * Fetches a user by username from the database if such exists.
      *
      * @param username The name of the user to be fetched.
@@ -105,7 +116,7 @@ object UserDatabase {
                 .map {
                     User(
                         username = it[Users.username],
-                        password = it[Users.password]
+                        password = it[Users.password],
                     )
                 }.firstOrNull()
         }
@@ -145,4 +156,17 @@ object UserDatabase {
      * The default port for the database.
      */
     private const val DEFAULT_PORT = "5432"
+}
+
+/**
+ * Checks to see if the given user credentials are valid or not.
+ *
+ * @receiver The user whose credentials are to be validated.
+ *
+ * @return True if the credentials are valid, false otherwise.
+ */
+internal fun User.areCredentialsValid(): Boolean {
+    val storedUser = UserDatabase.getUser(this.username) ?: return false
+
+    return storedUser.password == this.password
 }

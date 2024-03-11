@@ -1,5 +1,8 @@
 package hr.marintolic.chatsample.database.user.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 
 /**
  * Represents a user's login information.
@@ -7,7 +10,10 @@ package hr.marintolic.chatsample.database.user.model
  * @property username The username a user uses to log-in.
  * @property password The password the user uses to log-in.
  */
+@Serializable
 internal data class User(
+    @SerialName("username")
     val username: String,
+    @SerialName("password")
     val password: String,
 )
