@@ -3,37 +3,48 @@ package ui.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import chatsample.composeapp.generated.resources.Res
 import chatsample.composeapp.generated.resources.compose_multiplatform
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import ui.viewmodel.login.LoginViewModel
 
 
 /**
  * Contains the login screen.
  *
+ * @param loginViewModel The ViewModel responsible for logging in Users.
  * @param modifier The modifier used for styling the composable.
  */
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+internal fun LoginScreen(
+    loginViewModel: LoginViewModel,
+    modifier: Modifier = Modifier,
+    onSuccessfulLogin: (token: String) -> Unit,
+) {
+
+    val coroutineScope = rememberCoroutineScope()
+
     val username = "Username"
 
     val password = "Password"
+
+    var title by remember {
+        mutableStateOf("")
+    }
 
     var usernameTextFieldValue by rememberSaveable {
         mutableStateOf("")
     }
 
-    var passwordTextFieldValue by rememberSaveable() {
+    var passwordTextFieldValue by rememberSaveable {
         mutableStateOf("")
     }
 
@@ -50,6 +61,8 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             painter = painterResource(Res.drawable.compose_multiplatform),
             contentDescription = null
         )
+
+        Text(text = title)
 
         Spacer(
             modifier = Modifier.fillMaxWidth()
@@ -79,7 +92,9 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                //TODO()
+                coroutineScope.launch {
+                    // TODO Log the user in
+                }
             }
         ) {
             Text(

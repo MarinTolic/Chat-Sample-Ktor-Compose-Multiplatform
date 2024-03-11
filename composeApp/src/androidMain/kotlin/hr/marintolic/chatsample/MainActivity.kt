@@ -4,21 +4,17 @@ import App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import ui.viewmodel.login.LoginViewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val loginViewModel by viewModels<LoginViewModel> { LoginViewModel.factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App()
+            App(loginViewModel = loginViewModel)
         }
     }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
 }
