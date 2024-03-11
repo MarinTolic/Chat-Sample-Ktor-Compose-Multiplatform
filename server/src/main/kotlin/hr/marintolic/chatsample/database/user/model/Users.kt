@@ -28,4 +28,9 @@ object Users : Table() {
      * @see [User]
      */
     val password = varchar(PASSWORD, length = 128)
+
+    /**
+     * Set the table primary key to be the user's username.
+     */
+    override val primaryKey = PrimaryKey(username)
 }
