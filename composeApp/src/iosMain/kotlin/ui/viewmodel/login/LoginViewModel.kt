@@ -21,5 +21,6 @@ internal actual class LoginViewModel : LoginViewModelContract {
      *
      * @return The user's JWT.
      */
-    override suspend fun login(username: String, password: String) = loginApiImpl.login(User(username, password))
+    override suspend fun login(username: String, password: String): io.ktor.client.statement.HttpResponse =
+        loginApiImpl.login(User(username, password))
 }

@@ -1,11 +1,10 @@
 package networking.login
 
 import data.model.User
-import io.ktor.client.call.*
 import io.ktor.client.plugins.resources.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
-import networking.model.JWTResponse
 import networking.httpClient
 import networking.resources.ServerResources
 
@@ -22,7 +21,7 @@ internal interface LoginApi {
      *
      * @return The user's JWT.
      */
-    suspend fun login(user: User): JWTResponse
+    suspend fun login(user: User): HttpResponse
 }
 
 /**
@@ -39,10 +38,10 @@ internal class LoginApiImpl : LoginApi {
      *
      * @return The user's JWT.
      */
-    override suspend fun login(user: User): JWTResponse =
+    override suspend fun login(user: User): HttpResponse =
         httpClient.post(resource = ServerResources.Login()) {
             contentType(ContentType.Application.Json)
 
             setBody(user)
-        }.call.response.body()
+        }.call.response
 }

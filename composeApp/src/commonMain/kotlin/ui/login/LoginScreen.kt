@@ -11,6 +11,8 @@ import androidx.compose.ui.unit.dp
 import chatsample.composeapp.generated.resources.Res
 import chatsample.composeapp.generated.resources.compose_multiplatform
 import kotlinx.coroutines.launch
+import networking.deserializeBody
+import networking.model.JwtToken
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import ui.viewmodel.login.LoginViewModel
@@ -93,7 +95,16 @@ internal fun LoginScreen(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    // TODO Log the user in
+                    val response = loginViewModel.login(usernameTextFieldValue, passwordTextFieldValue)
+                    val result = response.deserializeBody<JwtToken>()
+
+                    if (result.isSuccess) {
+                        onSuccessfulLogin(result.getOrThrow().token)
+                    } else {
+                        result.exceptionOrNull()?.run {
+                            title = this.message ?: this.cause.toString()
+                        }
+                    }
                 }
             }
         ) {
