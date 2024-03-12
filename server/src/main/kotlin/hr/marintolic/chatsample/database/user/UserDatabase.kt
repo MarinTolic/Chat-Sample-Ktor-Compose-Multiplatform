@@ -155,6 +155,25 @@ object UserDatabase {
     }
 
     /**
+     * Fetches a list of all users other than the one defined by [username].
+     *
+     * @param username The username of the user not added to the returned list of users.
+     *
+     * @return A list containing all users other than the one with the username [username].
+     */
+    internal fun getAllOtherUsers(username: String): List<User> {
+        return transaction {
+            Users.selectAll().where { Users.username neq username }
+                .map {
+                    User(
+                        username = it[Users.username],
+                        password = it[Users.password],
+                    )
+                }
+        }
+    }
+
+    /**
      * The name of the database driver.
      */
     private const val DRIVER_CLASS_NAME = "org.postgresql.Driver"

@@ -1,5 +1,6 @@
 package hr.marintolic.chatsample.plugins.routing
 
+import hr.marintolic.chatsample.data.model.chat.createChatScreen
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -27,8 +28,9 @@ internal fun Routing.chatRoute() {
 
             val username = principal.payload.getClaim("username").asString()
 
-            // TODO implement
-            call.respondText { "hi $username, this hasn't yet been implemented!" }
+            val chatScreen = username.createChatScreen()
+
+            call.respond(chatScreen)
         }
     }
 }

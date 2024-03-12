@@ -1,13 +1,16 @@
 package networking.resources
 
 import io.ktor.resources.*
-import kotlinx.serialization.Serializable
 
-@Serializable
-@Resource("/")
+@Resource(path = "/")
 class ServerResources {
 
-    @Serializable
-    @Resource("login")
+    @Resource(path = "login")
     class Login
+
+    @Resource(path = "authorized")
+    class Authorized {
+        @Resource(path = "chat")
+        class Chat(val parent: Authorized = Authorized())
+    }
 }
