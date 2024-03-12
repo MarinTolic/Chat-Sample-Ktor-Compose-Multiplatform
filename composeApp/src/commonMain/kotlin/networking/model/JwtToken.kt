@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * @property token The user's JWT.
  */
 @Serializable
-data class JWTResponse(
+data class JwtToken(
     @SerialName("token")
     val token: String
 )

@@ -1,6 +1,6 @@
 package ui.viewmodel.login
 
-import networking.model.JWTResponse
+import io.ktor.client.statement.*
 
 
 /**
@@ -16,5 +16,5 @@ internal interface LoginViewModelContract {
      *
      * @return The user's JWT.
      */
-    suspend fun login(username: String, password: String): JWTResponse
+    suspend fun login(username: String, password: String): HttpResponse
 }

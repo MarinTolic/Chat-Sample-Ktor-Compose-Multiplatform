@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import data.model.User
+import io.ktor.client.statement.*
 import networking.login.LoginApiImpl
 
 /**
@@ -25,7 +26,8 @@ internal actual class LoginViewModel : ViewModel(), LoginViewModelContract {
      *
      * @return The user's JWT.
      */
-    override suspend fun login(username: String, password: String) = loginApiImpl.login(User(username, password))
+    override suspend fun login(username: String, password: String): HttpResponse =
+        loginApiImpl.login(User(username, password))
 
     companion object {
 
