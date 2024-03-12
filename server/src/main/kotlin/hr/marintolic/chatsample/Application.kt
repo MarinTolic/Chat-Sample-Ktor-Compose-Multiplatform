@@ -2,6 +2,7 @@ package hr.marintolic.chatsample
 
 import SERVER_HOST
 import SERVER_PORT
+import hr.marintolic.chatsample.database.user.UserDatabase
 import hr.marintolic.chatsample.plugins.auth.installAuthenticationPlugin
 import hr.marintolic.chatsample.plugins.contentnegotiation.installContentNegotiation
 import hr.marintolic.chatsample.plugins.routing.routingModule
@@ -25,6 +26,8 @@ fun main() {
  * The root function of the application, contains all other modules and performs the installation of plugins.
  */
 private fun Application.root() {
+    // Initialize the user database
+    initUserDatabase()
     // Install plugins first
     installPlugins()
     // Call root module
@@ -44,4 +47,11 @@ private fun Application.rootModule() {
 private fun Application.installPlugins() {
     installAuthenticationPlugin()
     installContentNegotiation()
+}
+
+/**
+ * Initializes the user database.
+ */
+private fun initUserDatabase() {
+    UserDatabase.initialize()
 }

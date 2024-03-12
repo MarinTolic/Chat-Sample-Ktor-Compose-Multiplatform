@@ -1,8 +1,8 @@
 package hr.marintolic.chatsample.database.user
 
+import hr.marintolic.chatsample.EnvironmentVariables
 import hr.marintolic.chatsample.database.user.model.User
 import hr.marintolic.chatsample.database.user.model.Users
-import hr.marintolic.chatsample.utils.getLocalProperties
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -10,16 +10,51 @@ import org.jetbrains.exposed.sql.transactions.transaction
  * Used to connect to the user database and perform transactions.
  */
 object UserDatabase {
+
+    /**
+     * The default list of users that the app will add at launch if such do not already exist.
+     */
+    private val defaultChatUsers = listOf(
+        User(
+            username = "Stanley",
+            password = "password"
+        ),
+        User(
+            username = "Maurice",
+            password = "password"
+        ),
+        User(
+            username = "Laura",
+            password = "password"
+        ),
+        User(
+            username = "Susan",
+            password = "password"
+        ),
+    )
+
     /**
      * The user database.
      */
     private val userDatabase: Database = createDatabase()
 
     /**
-     * Initializer block.
+     * Initializes the database.
      */
-    init {
+    internal fun initialize() {
         createUserTable()
+        addDefaultUsers()
+    }
+
+    /**
+     * Adds the default users to the database if such do not already exist.
+     */
+    private fun addDefaultUsers() {
+        defaultChatUsers.forEach {
+            val doesUserExist = getUser(it.username) != null
+
+            if (!doesUserExist) insertUser(it)
+        }
     }
 
     /**
@@ -30,13 +65,10 @@ object UserDatabase {
      * @return The database containing users.
      */
     private fun createDatabase(): Database {
-        val databaseProperties: Map<String, String> = getLocalProperties()
-
         // Map<K,V>.getValue() will cause a crash if no such value exists, which is preferable to a silent failure here
-        val dbName = databaseProperties.getValue(DB_NAME)
-        val dbPassword = databaseProperties.getValue(DB_PASSWORD)
-        val dbUserName = databaseProperties.getValue(DB_USER_NAME)
-        val dbUserPassword = databaseProperties.getValue(DB_USER_PASSWORD)
+        val dbName = EnvironmentVariables.chatSampleUserDbName
+        val dbUserName = EnvironmentVariables.chatSampleUserDbUserName
+        val dbUserPassword = EnvironmentVariables.chatSampleUserDbUserPassword
 
         val jdbcUrl = createJdbcUrl(
             dbName = dbName
@@ -126,26 +158,6 @@ object UserDatabase {
      * The name of the database driver.
      */
     private const val DRIVER_CLASS_NAME = "org.postgresql.Driver"
-
-    /**
-     * The name of the PostgreSQL database.
-     */
-    private const val DB_NAME = "user_db_name"
-
-    /**
-     * The password to the PostgreSQL database.
-     */
-    private const val DB_PASSWORD = "user_db_password"
-
-    /**
-     * The name of the PostgreSQL user given the privilege of accessing the database.
-     */
-    private const val DB_USER_NAME = "user_db_user_name"
-
-    /**
-     * The password of the PostgreSQL user given the privilege of accessing the database.
-     */
-    private const val DB_USER_PASSWORD = "user_db_user_password"
 
     /**
      * The default host for the database.

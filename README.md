@@ -12,12 +12,24 @@ This application uses PostgreSQL, so before you can run the app, you need to set
 To do so, do the following steps
 
 1) Install PostgreSQL on your system. This is platform specific so this README won't go into further detail.
-2) Clone the project and into your local Gradle properties (local.properties) file add the following values:
-   - user_db_name=\<The name of the PostgreSQL database\>
-   - user_db_user_name=\<The name of the PostgreSQL user given the privilege of accessing the database\>
-   - user_db_user_password=\<The password of the PostgreSQL user given the privilege of accessing the database\>
-3) Make sure that the PostgreSQL server is up and running. (platform dependant, `systemctl status postgresql` on Linux)
+2) Set the following environment variables into your respective environment (OS):
 
+    ```bash
+    CHAT_SAMPLE_JWT_SECRET="secret"
+    CHAT_SAMPLE_JWT_ISSUER="http://0.0.0.0:8080/"
+    CHAT_SAMPLE_JWT_AUDIENCE="http://0.0.0.0:8080/authorized"
+    CHAT_SAMPLE_JWT_REALM="Access to 'authorized'"
+    
+    CHAT_SAMPLE_USER_DB_NAME="chat_sample_user_database"
+    CHAT_SAMPLE_USER_DB_USER_NAME="my_chat_sample_db_user"
+    CHAT_SAMPLE_USER_DB_USER_PASSWORD="superSecretPassword"
+    ```
+3) Open your terminal:
+   - Make sure postgres is running, e.g. on Linux: `systemctl status postgres`
+   - Switch your shell user to `postgres`, you can do it via superuser command `sudo -i -u postgres`
+   - Open the Postgres terminal frontend using `psql`
+   - Create your user using `CREATE USER my_chat_sample_db_user WITH PASSWORD 'superSecretPassword;`
+   - Create the user database using `CREATE DATABASE chat_sample_user_database WITH OWNER my_chat_sample_db_user;`
 
 -----
 
