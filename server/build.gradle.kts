@@ -21,6 +21,7 @@ dependencies {
     implementation(libs.ktor.auth.jwt)
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.serialization.json)
+    implementation(libs.ktor.websockets)
 
     // Database
     implementation(libs.exposed.core)

@@ -12,7 +12,7 @@ import io.ktor.server.response.*
 /**
  * Installs and sets up authentication.
  */
-internal fun Application.installAuthenticationPlugin() {
+internal fun Application.configureAuthenticationPlugin() {
     install(Authentication) {
         jwtAuth()
     }

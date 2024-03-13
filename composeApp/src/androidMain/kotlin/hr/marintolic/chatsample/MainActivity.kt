@@ -5,16 +5,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import ui.viewmodel.chat.ChatViewModel
 import ui.viewmodel.login.LoginViewModel
 
 class MainActivity : ComponentActivity() {
 
     private val loginViewModel by viewModels<LoginViewModel> { LoginViewModel.factory }
+    private val chatViewModel by viewModels<ChatViewModel> { ChatViewModel.factory }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App(loginViewModel = loginViewModel)
+            App(
+                loginViewModel = loginViewModel,
+                chatViewModel = chatViewModel
+            )
         }
     }
 }

@@ -6,6 +6,7 @@ import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.resources.*
+import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 
@@ -24,10 +25,14 @@ private fun createHttpClient(): HttpClient = HttpClient {
     install(Resources)
     install(DefaultRequest) {
         contentType(ContentType.Application.Json)
-        url("http://$SERVER_HOST:$SERVER_PORT")
+        host = SERVER_HOST
+        port = SERVER_PORT
     }
     install(ContentNegotiation) {
         json()
+    }
+    install(WebSockets){
+        pingInterval = 20_000
     }
 }
 

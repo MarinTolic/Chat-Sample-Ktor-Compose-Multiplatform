@@ -12,5 +12,8 @@ class ServerResources {
     class Authorized {
         @Resource(path = "chat")
         class Chat(val parent: Authorized = Authorized())
+
+        @Resource(path = "socket")
+        class Socket(val parent: Authorized = Authorized())
     }
 }
