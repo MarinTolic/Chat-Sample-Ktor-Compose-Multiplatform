@@ -1,7 +1,9 @@
 package hr.marintolic.chatsample.plugins.websockets
 
+import io.ktor.serialization.kotlinx.*
 import io.ktor.server.application.*
 import io.ktor.server.websocket.*
+import kotlinx.serialization.json.Json
 import java.time.Duration
 
 /**
@@ -9,6 +11,8 @@ import java.time.Duration
  */
 internal fun Application.configureWebSocketsPlugin() {
     install(WebSockets) {
+        contentConverter = KotlinxWebsocketSerializationConverter(Json)
+
         pingPeriod = Duration.ofSeconds(20)
         timeout = Duration.ofSeconds(20)
         maxFrameSize = Long.MAX_VALUE

@@ -8,7 +8,9 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.resources.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 
 
 /**
@@ -32,6 +34,7 @@ private fun createHttpClient(): HttpClient = HttpClient {
         json()
     }
     install(WebSockets){
+        contentConverter = KotlinxWebsocketSerializationConverter(Json)
         pingInterval = 20_000
     }
 }
