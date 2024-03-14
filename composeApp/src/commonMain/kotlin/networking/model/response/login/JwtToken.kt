@@ -1,4 +1,4 @@
-package networking.model
+package networking.model.response.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

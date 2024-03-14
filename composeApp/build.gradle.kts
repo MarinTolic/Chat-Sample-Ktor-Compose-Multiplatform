@@ -55,7 +55,7 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.cio.wasm)
             implementation(libs.kotlinx.coroutines.android)
         }
         iosMain.dependencies {
@@ -78,9 +78,10 @@ kotlin {
             implementation(libs.ktor.serialization.json.wasm)
             implementation(libs.ktor.client.content.negotiation.wasm)
             implementation(libs.ktor.client.resources.wasm)
+            implementation(libs.ktor.client.websockets.wasm)
         }
         desktopMain.dependencies {
-            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.cio.wasm)
             implementation(compose.desktop.currentOs)
         }
     }
